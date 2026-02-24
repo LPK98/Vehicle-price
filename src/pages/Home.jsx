@@ -51,7 +51,7 @@ function Home() {
       {error && <p className="text-red-500">{error}</p>}
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {filtered.map((v) => (
-          <VehicleCard key={v._id} vehicle={v} />
+          <VehicleCard key={v.id} vehicle={v} />
         ))}
       </div>
     </div>

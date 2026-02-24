@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function VehicleCard({ vehicle }) {
   const navigate = useNavigate();
-  const { _id, image, model, brand, year, price } = vehicle;
+  const { id, image, model, brand, year, price } = vehicle;
 
   return (
     <div className="bg-white shadow-md rounded-lg overflow-hidden">
@@ -22,7 +22,7 @@ function VehicleCard({ vehicle }) {
         <p className="text-sm text-gray-600">Price: LKR {price}</p>
         <button
           className="mt-2 bg-blue-500 text-white py-1 px-3 rounded"
-          onClick={() => navigate(`/vehicle/${_id}`)}
+          onClick={() => navigate(`/vehicle/${id}`)}
         >
           View Details
         </button>
