@@ -4,6 +4,7 @@ const instance = axios.create({
   baseURL: "http://localhost:5000/api",
 });
 
+// Attach JWT token to every request
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -11,5 +12,22 @@ instance.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Handle response errors globally
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response) {
+      if (error.response.status === 401) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        if (window.location.pathname !== "/login") {
+          window.location.href = "/login";
+        }
+      }
+    }
+    return Promise.reject(error);
+  },
+);
 
 export default instance;
