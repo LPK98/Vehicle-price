@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import VehicleDetails from "./pages/VehicleDetails";
+import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           }
         />
         <Route path="/vehicle/:id" element={<VehicleDetails />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </MainLayout>
   );

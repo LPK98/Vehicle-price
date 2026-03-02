@@ -26,8 +26,17 @@ function Register() {
     }
     setLoading(true);
     try {
-      await registerUser(name, email, password);
-      navigate("/login");
+      const res = await registerUser(name, email, password);
+      const isAdmin = res.data?.isAdmin;
+      navigate("/login", {
+        state: {
+          registered: true,
+          isAdmin,
+          message: isAdmin
+            ? "Account created! You are the first user — you have been granted admin access."
+            : "Account created successfully! Please sign in.",
+        },
+      });
     } catch (err) {
       setError(
         err.response?.data?.message || "Registration failed. Please try again.",
@@ -39,13 +48,13 @@ function Register() {
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+      <div className="w-full max-w-md animate-slideUp">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 p-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="w-14 h-14 bg-accent-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <div className="w-14 h-14 bg-accent-50 dark:bg-accent-900/40 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <svg
-                className="w-7 h-7 text-accent-600"
+                className="w-7 h-7 text-accent-600 dark:text-accent-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -58,8 +67,10 @@ function Register() {
                 />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Create Account</h2>
-            <p className="text-sm text-gray-500 mt-1">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Create Account
+            </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               Join the marketplace today
             </p>
           </div>
@@ -191,11 +202,11 @@ function Register() {
           </form>
 
           {/* Footer */}
-          <p className="mt-6 text-center text-sm text-gray-500">
+          <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
             Already have an account?{" "}
             <Link
               to="/login"
-              className="text-primary-600 hover:text-primary-700 font-semibold"
+              className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-semibold"
             >
               Sign In
             </Link>

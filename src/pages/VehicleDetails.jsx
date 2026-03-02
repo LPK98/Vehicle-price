@@ -25,7 +25,7 @@ function VehicleDetails() {
   if (error) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <div className="inline-flex items-center gap-2 bg-red-50 text-red-600 px-6 py-3 rounded-xl">
+        <div className="inline-flex items-center gap-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-6 py-3 rounded-xl">
           <svg
             className="w-5 h-5"
             fill="none"
@@ -127,11 +127,11 @@ function VehicleDetails() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
       {/* Back Button */}
       <button
         onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-primary-600 mb-6 transition-colors"
+        className="flex items-center gap-2 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 mb-6 transition-colors"
       >
         <svg
           className="w-4 h-4"
@@ -159,9 +159,9 @@ function VehicleDetails() {
               className="w-full h-80 lg:h-full object-cover"
             />
           ) : (
-            <div className="w-full h-80 lg:h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+            <div className="w-full h-80 lg:h-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 flex items-center justify-center">
               <svg
-                className="w-24 h-24 text-gray-300"
+                className="w-24 h-24 text-gray-300 dark:text-gray-500"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -180,14 +180,14 @@ function VehicleDetails() {
         {/* Details */}
         <div>
           <div className="mb-2">
-            <span className="inline-flex px-3 py-1 bg-primary-100 text-primary-700 text-xs font-semibold rounded-full uppercase tracking-wider">
+            <span className="inline-flex px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-xs font-semibold rounded-full uppercase tracking-wider">
               {vehicle.brand}
             </span>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             {vehicle.brand} {vehicle.model}
           </h1>
-          <p className="text-3xl font-extrabold text-primary-600 mb-6">
+          <p className="text-3xl font-extrabold text-primary-600 dark:text-primary-400 mb-6">
             LKR {Number(vehicle.price).toLocaleString()}
           </p>
 
@@ -196,15 +196,15 @@ function VehicleDetails() {
             {specs.map((spec) => (
               <div
                 key={spec.label}
-                className="bg-gray-50 rounded-xl p-4 border border-gray-100"
+                className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700"
               >
-                <div className="flex items-center gap-2 text-gray-400 mb-1">
+                <div className="flex items-center gap-2 text-gray-400 dark:text-gray-500 mb-1">
                   {spec.icon}
                   <span className="text-xs font-medium uppercase tracking-wider">
                     {spec.label}
                   </span>
                 </div>
-                <p className="text-lg font-semibold text-gray-900">
+                <p className="text-lg font-semibold text-gray-900 dark:text-white">
                   {spec.value}
                 </p>
               </div>
@@ -214,10 +214,10 @@ function VehicleDetails() {
           {/* Description */}
           {vehicle.description && (
             <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-2">
+              <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-2">
                 Description
               </h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
                 {vehicle.description}
               </p>
             </div>
@@ -249,8 +249,8 @@ function VehicleDetails() {
 
       {/* Price History Chart */}
       {vehicle.priceHistory && vehicle.priceHistory.length > 0 && (
-        <div className="mt-10 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="mt-10 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm p-6">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
             Price History
           </h2>
           <PriceChart data={vehicle.priceHistory} />

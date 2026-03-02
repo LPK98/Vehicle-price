@@ -22,9 +22,9 @@ function FilterBar({ onFilterChange }) {
   const hasFilters = search || brand || fuel || minPrice || maxPrice;
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 mb-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider flex items-center gap-2">
+        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider flex items-center gap-2">
           <svg
             className="w-4 h-4 text-primary-500"
             fill="none"
@@ -43,7 +43,7 @@ function FilterBar({ onFilterChange }) {
         {hasFilters && (
           <button
             onClick={clearFilters}
-            className="text-xs font-medium text-primary-600 hover:text-primary-700 hover:bg-primary-50 px-3 py-1 rounded-lg transition-all"
+            className="text-xs font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 px-3 py-1 rounded-lg transition-all"
           >
             Clear All
           </button>
@@ -71,7 +71,7 @@ function FilterBar({ onFilterChange }) {
             placeholder="Search vehicles..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 bg-gray-50 transition-all"
+            className="w-full pl-10 pr-4 py-2.5 text-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 dark:focus:ring-primary-600 focus:border-primary-400 bg-gray-50 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-500 transition-all"
           />
         </div>
 
@@ -79,7 +79,7 @@ function FilterBar({ onFilterChange }) {
         <select
           value={brand}
           onChange={(e) => setBrand(e.target.value)}
-          className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 bg-gray-50 text-gray-700 transition-all appearance-none"
+          className="w-full px-4 py-2.5 text-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 dark:focus:ring-primary-600 focus:border-primary-400 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-200 transition-all appearance-none"
         >
           <option value="">All Brands</option>
           <option value="Toyota">Toyota</option>
@@ -88,13 +88,15 @@ function FilterBar({ onFilterChange }) {
           <option value="BMW">BMW</option>
           <option value="Mercedes">Mercedes</option>
           <option value="Suzuki">Suzuki</option>
+          <option value="Tesla">Tesla</option>
+          <option value="Ford">Ford</option>
         </select>
 
         {/* Fuel */}
         <select
           value={fuel}
           onChange={(e) => setFuel(e.target.value)}
-          className="w-full px-4 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 bg-gray-50 text-gray-700 transition-all appearance-none"
+          className="w-full px-4 py-2.5 text-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 dark:focus:ring-primary-600 focus:border-primary-400 bg-gray-50 dark:bg-gray-900 text-gray-700 dark:text-gray-200 transition-all appearance-none"
         >
           <option value="">All Fuel Types</option>
           <option value="Petrol">Petrol</option>
@@ -110,14 +112,16 @@ function FilterBar({ onFilterChange }) {
             placeholder="Min Price"
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
-            className="w-1/2 px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 bg-gray-50 transition-all"
+            min="0"
+            className="w-1/2 px-3 py-2.5 text-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 dark:focus:ring-primary-600 focus:border-primary-400 bg-gray-50 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-500 transition-all"
           />
           <input
             type="number"
             placeholder="Max Price"
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
-            className="w-1/2 px-3 py-2.5 text-sm border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-400 bg-gray-50 transition-all"
+            min="0"
+            className="w-1/2 px-3 py-2.5 text-sm border border-gray-200 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-300 dark:focus:ring-primary-600 focus:border-primary-400 bg-gray-50 dark:bg-gray-900 dark:text-gray-100 dark:placeholder-gray-500 transition-all"
           />
         </div>
       </div>

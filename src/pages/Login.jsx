@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Button from "../components/Button";
 import Input from "../components/Input";
 
@@ -11,14 +11,17 @@ function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const successMsg = location.state?.message;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
     try {
-      await login(email, password);
-      navigate("/dashboard");
+      const res = await login(email, password);
+      const role = res?.data?.user?.role || "user";
+      navigate(role === "admin" ? "/dashboard" : "/");
     } catch (err) {
       setError(
         err.response?.data?.message || "Login failed. Please try again.",
@@ -30,13 +33,13 @@ function Login() {
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+      <div className="w-full max-w-md animate-slideUp">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 p-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="w-14 h-14 bg-primary-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <div className="w-14 h-14 bg-primary-100 dark:bg-primary-900/40 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <svg
-                className="w-7 h-7 text-primary-600"
+                className="w-7 h-7 text-primary-600 dark:text-primary-400"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -49,11 +52,33 @@ function Login() {
                 />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Welcome Back</h2>
-            <p className="text-sm text-gray-500 mt-1">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Welcome Back
+            </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               Sign in to your account
             </p>
           </div>
+
+          {/* Success message from registration */}
+          {successMsg && (
+            <div className="mb-6 flex items-start gap-2 bg-green-50 text-green-700 px-4 py-3 rounded-xl text-sm">
+              <svg
+                className="w-5 h-5 flex-shrink-0 mt-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              {successMsg}
+            </div>
+          )}
 
           {/* Error */}
           {error && (
@@ -135,11 +160,11 @@ function Login() {
           </form>
 
           {/* Footer */}
-          <p className="mt-6 text-center text-sm text-gray-500">
+          <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
             Don&apos;t have an account?{" "}
             <Link
               to="/register"
-              className="text-primary-600 hover:text-primary-700 font-semibold"
+              className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-semibold"
             >
               Sign Up
             </Link>

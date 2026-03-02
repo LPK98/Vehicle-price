@@ -49,7 +49,7 @@ function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-primary-700 via-primary-800 to-primary-900 dark:from-gray-900 dark:via-primary-950 dark:to-gray-900 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <svg
             className="w-full h-full"
@@ -132,7 +132,7 @@ function Home() {
       {/* Listings Section */}
       <section
         id="listings"
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10"
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 animate-fadeIn"
       >
         <FilterBar onFilterChange={setFilters} />
 
@@ -173,10 +173,10 @@ function Home() {
                 d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
               />
             </svg>
-            <h3 className="text-lg font-semibold text-gray-500">
+            <h3 className="text-lg font-semibold text-gray-500 dark:text-gray-400">
               No vehicles found
             </h3>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-sm text-gray-400 dark:text-gray-500 mt-1">
               Try adjusting your filters
             </p>
           </div>
@@ -185,9 +185,9 @@ function Home() {
         {!loading && filtered.length > 0 && (
           <>
             <div className="flex items-center justify-between mb-6">
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 Showing{" "}
-                <span className="font-semibold text-gray-700">
+                <span className="font-semibold text-gray-700 dark:text-gray-200">
                   {filtered.length}
                 </span>{" "}
                 vehicle{filtered.length !== 1 ? "s" : ""}

@@ -7,7 +7,7 @@ function VehicleCard({ vehicle }) {
 
   return (
     <div
-      className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer border border-gray-100"
+      className="group bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer border border-gray-100 dark:border-gray-700 animate-fadeIn"
       onClick={() => navigate(`/vehicle/${id}`)}
     >
       {/* Image */}
@@ -36,20 +36,20 @@ function VehicleCard({ vehicle }) {
           </div>
         )}
         {/* Price Badge */}
-        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-primary-700 font-bold px-3 py-1.5 rounded-xl text-sm shadow-sm">
+        <div className="absolute top-3 right-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm text-primary-700 dark:text-primary-300 font-bold px-3 py-1.5 rounded-xl text-sm shadow-sm">
           LKR {Number(price).toLocaleString()}
         </div>
       </div>
 
       {/* Content */}
       <div className="p-4">
-        <h3 className="font-semibold text-lg text-gray-900 group-hover:text-primary-600 transition-colors">
+        <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
           {brand} {model}
         </h3>
 
         <div className="flex items-center gap-2 mt-2">
           {/* Year Badge */}
-          <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 rounded-lg text-xs font-medium">
             <svg
               className="w-3.5 h-3.5"
               fill="none"
@@ -67,7 +67,7 @@ function VehicleCard({ vehicle }) {
           </span>
           {/* Fuel Badge */}
           {fuel && (
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-accent-50 text-accent-600 rounded-lg text-xs font-medium">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-accent-50 dark:bg-accent-900/30 text-accent-600 dark:text-accent-400 rounded-lg text-xs font-medium">
               <svg
                 className="w-3.5 h-3.5"
                 fill="none"
@@ -86,9 +86,9 @@ function VehicleCard({ vehicle }) {
           )}
         </div>
 
-        <div className="mt-3 pt-3 border-t border-gray-100">
+        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
           <button
-            className="w-full py-2 text-sm font-medium text-primary-600 hover:bg-primary-50 rounded-xl transition-colors"
+            className="w-full py-2 text-sm font-medium text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 rounded-xl transition-colors"
             onClick={(e) => {
               e.stopPropagation();
               navigate(`/vehicle/${id}`);

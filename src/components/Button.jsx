@@ -3,11 +3,12 @@ import React from "react";
 const variants = {
   primary:
     "bg-primary-600 hover:bg-primary-700 text-white focus:ring-primary-300",
-  secondary: "bg-gray-200 hover:bg-gray-300 text-gray-800 focus:ring-gray-300",
+  secondary:
+    "bg-gray-200 hover:bg-gray-300 text-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 focus:ring-gray-300",
   danger: "bg-red-500 hover:bg-red-600 text-white focus:ring-red-300",
   accent: "bg-accent-500 hover:bg-accent-600 text-white focus:ring-accent-300",
   outline:
-    "border-2 border-primary-600 text-primary-600 hover:bg-primary-50 focus:ring-primary-300",
+    "border-2 border-primary-600 text-primary-600 dark:border-primary-400 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/30 focus:ring-primary-300",
 };
 
 const sizes = {

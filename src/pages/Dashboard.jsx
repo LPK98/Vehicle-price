@@ -65,6 +65,21 @@ function Dashboard() {
     }
   }, [user]);
 
+  // Auto-dismiss alerts
+  useEffect(() => {
+    if (error) {
+      const t = setTimeout(() => setError(""), 4000);
+      return () => clearTimeout(t);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (success) {
+      const t = setTimeout(() => setSuccess(""), 4000);
+      return () => clearTimeout(t);
+    }
+  }, [success]);
+
   const resetForm = () => {
     setForm({
       brand: "",
@@ -160,9 +175,9 @@ function Dashboard() {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg
-              className="w-8 h-8 text-red-500"
+              className="w-8 h-8 text-red-500 dark:text-red-400"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -175,8 +190,10 @@ function Dashboard() {
               />
             </svg>
           </div>
-          <h2 className="text-xl font-semibold text-gray-700">Access Denied</h2>
-          <p className="text-gray-400 mt-1">
+          <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-200">
+            Access Denied
+          </h2>
+          <p className="text-gray-400 dark:text-gray-500 mt-1">
             You need admin privileges to access this page.
           </p>
         </div>
@@ -185,12 +202,14 @@ function Dashboard() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            Admin Dashboard
+          </h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             Manage vehicles and view analytics
           </p>
         </div>
@@ -207,7 +226,7 @@ function Dashboard() {
 
       {/* Alerts */}
       {error && (
-        <div className="mb-6 flex items-center gap-2 bg-red-50 text-red-600 px-4 py-3 rounded-xl text-sm">
+        <div className="mb-6 flex items-center gap-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 px-4 py-3 rounded-xl text-sm">
           <svg
             className="w-5 h-5 flex-shrink-0"
             fill="none"
@@ -243,7 +262,7 @@ function Dashboard() {
         </div>
       )}
       {success && (
-        <div className="mb-6 flex items-center gap-2 bg-accent-50 text-accent-600 px-4 py-3 rounded-xl text-sm">
+        <div className="mb-6 flex items-center gap-2 bg-accent-50 dark:bg-accent-900/20 text-accent-600 dark:text-accent-400 px-4 py-3 rounded-xl text-sm">
           <svg
             className="w-5 h-5 flex-shrink-0"
             fill="none"
@@ -365,7 +384,7 @@ function Dashboard() {
         ].map((stat) => (
           <div
             key={stat.label}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5"
+            className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm p-5"
           >
             <div className="flex items-center gap-4">
               <div
@@ -374,10 +393,12 @@ function Dashboard() {
                 {stat.icon}
               </div>
               <div>
-                <p className="text-xs text-gray-500 uppercase tracking-wider">
+                <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   {stat.label}
                 </p>
-                <p className="text-xl font-bold text-gray-900">{stat.value}</p>
+                <p className="text-xl font-bold text-gray-900 dark:text-white">
+                  {stat.value}
+                </p>
               </div>
             </div>
           </div>
@@ -388,8 +409,8 @@ function Dashboard() {
       {vehicles.length > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Bar Chart - by brand */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm p-6">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-4">
               Vehicles by Brand
             </h3>
             <ResponsiveContainer width="100%" height={250}>
@@ -404,8 +425,8 @@ function Dashboard() {
           </div>
 
           {/* Pie Chart - by fuel */}
-          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-            <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm p-6">
+            <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider mb-4">
               Fuel Distribution
             </h3>
             <ResponsiveContainer width="100%" height={250}>
@@ -435,8 +456,8 @@ function Dashboard() {
 
       {/* Add/Edit Vehicle Form */}
       {showForm && (
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm p-6 mb-8">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
             {editingId ? "Edit Vehicle" : "Add New Vehicle"}
           </h3>
           <form onSubmit={handleSubmit}>
@@ -485,7 +506,7 @@ function Dashboard() {
               />
             </div>
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 Description
               </label>
               <textarea
@@ -495,7 +516,7 @@ function Dashboard() {
                   setForm({ ...form, description: e.target.value })
                 }
                 rows={3}
-                className="w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-500 transition-all"
+                className="w-full rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 dark:text-gray-100 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-300 dark:focus:ring-primary-600 focus:border-primary-500 transition-all"
               />
             </div>
             <div className="flex gap-3">
@@ -511,9 +532,9 @@ function Dashboard() {
       )}
 
       {/* Vehicle Table */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100">
-          <h3 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700">
+          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 uppercase tracking-wider">
             All Vehicles ({vehicles.length})
           </h3>
         </div>
@@ -535,35 +556,37 @@ function Dashboard() {
                 d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
               />
             </svg>
-            <p className="text-gray-400 text-sm">No vehicles added yet</p>
+            <p className="text-gray-400 dark:text-gray-500 text-sm">
+              No vehicles added yet
+            </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="bg-gray-50">
-                  <th className="text-left text-xs font-semibold text-gray-500 uppercase px-6 py-3">
+                <tr className="bg-gray-50 dark:bg-gray-700/50">
+                  <th className="text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase px-6 py-3">
                     Vehicle
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-500 uppercase px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase px-6 py-3">
                     Year
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-500 uppercase px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase px-6 py-3">
                     Price
                   </th>
-                  <th className="text-left text-xs font-semibold text-gray-500 uppercase px-6 py-3">
+                  <th className="text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase px-6 py-3">
                     Fuel
                   </th>
-                  <th className="text-right text-xs font-semibold text-gray-500 uppercase px-6 py-3">
+                  <th className="text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase px-6 py-3">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
                 {vehicles.map((v, i) => (
                   <tr
                     key={v.id}
-                    className={`hover:bg-gray-50 transition-colors ${i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}`}
+                    className={`hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors ${i % 2 === 0 ? "bg-white dark:bg-gray-800" : "bg-gray-50/50 dark:bg-gray-800/50"}`}
                   >
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
@@ -574,7 +597,7 @@ function Dashboard() {
                             className="w-10 h-10 rounded-lg object-cover"
                           />
                         ) : (
-                          <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                          <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
                             <svg
                               className="w-5 h-5 text-gray-400"
                               fill="none"
@@ -591,33 +614,33 @@ function Dashboard() {
                           </div>
                         )}
                         <div>
-                          <p className="font-medium text-gray-900 text-sm">
+                          <p className="font-medium text-gray-900 dark:text-white text-sm">
                             {v.brand} {v.model}
                           </p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
+                    <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">
                       {v.year}
                     </td>
-                    <td className="px-6 py-4 text-sm font-semibold text-gray-900">
+                    <td className="px-6 py-4 text-sm font-semibold text-gray-900 dark:text-white">
                       LKR {Number(v.price).toLocaleString()}
                     </td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex px-2.5 py-1 rounded-lg text-xs font-medium bg-primary-50 text-primary-700">
+                      <span className="inline-flex px-2.5 py-1 rounded-lg text-xs font-medium bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300">
                         {v.fuel || "N/A"}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <button
                         onClick={() => handleEdit(v)}
-                        className="text-sm font-medium text-primary-600 hover:text-primary-700 mr-4"
+                        className="text-sm font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 mr-4"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(v.id)}
-                        className="text-sm font-medium text-red-500 hover:text-red-600"
+                        className="text-sm font-medium text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300"
                       >
                         Delete
                       </button>
