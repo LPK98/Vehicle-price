@@ -1,59 +1,68 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const prisma = require("../lib/prisma");
 
-const users = []; // in-memory user store
-let userIdCounter = 1;
-
-const SECRET = "supersecretkey";
+const SECRET = process.env.JWT_SECRET || "supersecretkey";
 
 exports.register = async (req, res) => {
-  const { name, email, password } = req.body;
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: "Missing fields" });
+  try {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Name, email, and password are required" });
+    }
+    if (password.length < 6) {
+      return res
+        .status(400)
+        .json({ message: "Password must be at least 6 characters" });
+    }
+
+    const existing = await prisma.user.findUnique({ where: { email } });
+    if (existing) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    const hashed = await bcrypt.hash(password, 10);
+    await prisma.user.create({
+      data: { name, email, password: hashed, role: "user" },
+    });
+
+    res.status(201).json({ message: "Registered successfully" });
+  } catch (err) {
+    res.status(500).json({ message: "Registration error", error: err.message });
   }
-  if (users.find((u) => u.email === email)) {
-    return res.status(400).json({ message: "Email already exists" });
-  }
-  const hashed = await bcrypt.hash(password, 10);
-  const newUser = {
-    id: userIdCounter++,
-    name,
-    email,
-    password: hashed,
-    role: "user",
-  };
-  users.push(newUser);
-  res.status(201).json({ message: "Registered" });
 };
 
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
-  const user = users.find((u) => u.email === email);
-  if (!user) return res.status(400).json({ message: "Invalid credentials" });
-  const valid = await bcrypt.compare(password, user.password);
-  if (!valid) return res.status(400).json({ message: "Invalid credentials" });
-  const token = jwt.sign({ id: user.id, role: user.role }, SECRET, {
-    expiresIn: "1h",
-  });
-  res.json({
-    user: { id: user.id, name: user.name, email: user.email, role: user.role },
-    token,
-  });
-};
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
+    }
 
-exports.verifyToken = (req, res, next) => {
-  const header = req.headers.authorization;
-  if (!header) return res.status(401).json({ message: "No token" });
-  const token = header.split(" ")[1];
-  jwt.verify(token, SECRET, (err, decoded) => {
-    if (err) return res.status(401).json({ message: "Invalid token" });
-    req.user = decoded;
-    next();
-  });
-};
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
-exports.ensureAdmin = (req, res, next) => {
-  if (req.user.role !== "admin")
-    return res.status(403).json({ message: "Forbidden" });
-  next();
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) return res.status(400).json({ message: "Invalid credentials" });
+
+    const token = jwt.sign({ id: user.id, role: user.role }, SECRET, {
+      expiresIn: "1h",
+    });
+
+    res.json({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+      token,
+    });
+  } catch (err) {
+    res.status(500).json({ message: "Login error", error: err.message });
+  }
 };
